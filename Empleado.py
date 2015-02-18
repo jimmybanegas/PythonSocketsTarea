@@ -1,11 +1,15 @@
 __author__ = 'Jimmy Banegas'
 
+import re
 
-def validarCorreo():
-    pass
+def correoEsValido(correo):
+    if re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,4}$',correo.lower()):
+        return True;
+    else:
+        return False;
 
 
-def validarIdentidad():
+def identidadEsValida(identidad):
     pass
 
 
@@ -13,7 +17,11 @@ def getNextCodigo(self):
     return 0
 
 
-def validarTelefono():
+def telefonoEsValido(telefono):
+    pass
+
+
+def salarioEsvalido(salario):
     pass
 
 
@@ -36,19 +44,16 @@ class Empleado:
 
     @classmethod
     def agregarEmpleado(self,codigo,nombre,correo,salario,identidad,telefono):
-        if validarCorreo():
-            ""
-        else:
+        if not correoEsValido(correo):
             return "Correo incorrecto o ya existe"
 
-        if validarIdentidad():
-            ""
-        else:
+        if not identidadEsValida(identidad):
             return "Identidad incorrecta o ya existe"
 
-        if validarTelefono():
-            ""
-        else:
+        if not salarioEsvalido(salario):
+            return "Formato de salario no válido"
+
+        if not telefonoEsValido(telefono):
             return "Telfono incorrecto o repetido"
 
         return "Agregado"
