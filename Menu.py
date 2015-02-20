@@ -4,15 +4,29 @@ from Empleado import *
 
 ans=True
 
-
 def agregar():
     codigo = Empleado.getNextCodigo(Empleado)
-    nombre = input('Ingrese el nombre: ')
+    print('Código: '+ codigo)
+    nombre = input('Ingrese el nombre y apellidos: ')
     correo = input('Ingrese el correo: ')
-    salario = input('Ingrese el salirio: ')
+    salario = input('Ingrese el salario: ')
     identidad = input('Ingrese la identidad: ')
-    telefono = input('Ingrese el telefono: ')
+    telefono = input('Ingrese el teléfono: ')
     return Empleado.agregarEmpleado(codigo,nombre,correo,salario,identidad,telefono)
+
+def buscar(codigo):
+    return Empleado.buscarEmpleado(codigo)
+
+
+def modificar():
+    codigo = Empleado.getNextCodigo(Empleado)
+    print('Código: '+ codigo)
+    nombre = input('Ingrese el nombre y apellidos: ')
+    correo = input('Ingrese el correo: ')
+    salario = input('Ingrese el salario: ')
+    identidad = input('Ingrese la identidad: ')
+    telefono = input('Ingrese el teléfono: ')
+    return Empleado.editarEmpleado(codigo,nombre,correo,salario,identidad,telefono)
 
 
 while ans:
@@ -27,9 +41,16 @@ while ans:
         respuesta = agregar()
         print(respuesta)
     elif ans=="2":
+        codigo = input('Ingrese el código del empleado que quiere modificar: ')
+        empleado=buscar(codigo)
+        empleado.imprimirDatos()
+        respuesta = modificar()
         print("\n Empleado modificado")
     elif ans=="3":
-        print("\n Found")
+        codigo = input('Ingrese el código del empleado que quiere buscar: ')
+        empleado=buscar(codigo)
+        empleado.imprimirDatos()
+        print("\n Encontrado")
     elif ans=="3":
         print("\n Listado")
     elif ans=="4":
