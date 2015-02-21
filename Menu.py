@@ -4,6 +4,16 @@ from Empleado import *
 
 ans=True
 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = socket.gethostname()
+port = 2222
+
+print('Connecting to the server...')
+s.connect((host, port))
+print('Connection established...')
+
+msg = s.recv(1024)
+
 def agregar():
     codigo = Empleado.getNextCodigo(Empleado)
     print('Código: '+ codigo)
@@ -17,7 +27,6 @@ def agregar():
 def buscar(codigo):
     return Empleado.buscarEmpleado(codigo)
 
-
 def modificar():
     codigo = Empleado.getNextCodigo(Empleado)
     print('Código: '+ codigo)
@@ -28,7 +37,6 @@ def modificar():
     telefono = input('Ingrese el teléfono: ')
     return Empleado.editarEmpleado(codigo,nombre,correo,salario,identidad,telefono)
 
-
 while ans:
     print ("""
     1.Insertar Empleado
@@ -38,8 +46,12 @@ while ans:
     4.Salir """)
     ans= input("Elija su opción: ")
     if ans=="1":
-        respuesta = agregar()
-        print(respuesta)
+        respuesta,tof = agregar()
+        if not tof:
+          print(respuesta)
+        elif tof:
+         s.send(respuesta.encode('utf-8'))
+         print("\n Agregado")
     elif ans=="2":
         codigo = input('Ingrese el código del empleado que quiere modificar: ')
         empleado=buscar(codigo)
@@ -48,9 +60,13 @@ while ans:
         print("\n Empleado modificado")
     elif ans=="3":
         codigo = input('Ingrese el código del empleado que quiere buscar: ')
-        empleado=buscar(codigo)
-        empleado.imprimirDatos()
-        print("\n Encontrado")
+        s.send(codigo.encode('utf-8'))
+        enc = s.recv(1024)
+        res=enc.decode('utf-8')
+        if res != '':
+            print(res)
+        elif res:
+            print('No econtrado')
     elif ans=="3":
         print("\n Listado")
     elif ans=="4":
