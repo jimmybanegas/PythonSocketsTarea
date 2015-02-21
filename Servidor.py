@@ -29,6 +29,7 @@ def creartxt():
     except:
         temp = os.path.join(os.path.abspath('datos.txt'))
         archi=open(temp,'w')
+        archi.write('0\n')
         archi.close()
 
 def grabartxt(empleado):
