@@ -27,15 +27,13 @@ def agregar():
 def buscar(codigo):
     return Empleado.buscarEmpleado(codigo)
 
-def modificar():
-    codigo = Empleado.getNextCodigo(Empleado)
-    print('Código: '+ codigo)
+def modificar(codigo):
     nombre = input('Ingrese el nombre y apellidos: ')
     correo = input('Ingrese el correo: ')
     salario = input('Ingrese el salario: ')
     identidad = input('Ingrese la identidad: ')
     telefono = input('Ingrese el teléfono: ')
-    return Empleado.editarEmpleado(codigo,nombre,correo,salario,identidad,telefono)
+    return Empleado.agregarEmpleado(codigo,nombre,correo,salario,identidad,telefono)
 
 while ans:
     print ("""
@@ -43,7 +41,7 @@ while ans:
     2.Modificar Empleado
     3.Buscar Empleado
     4.Listar Empleados
-    4.Salir """)
+    5.Salir """)
     ans= input("Elija su opción: ")
     if ans=="1":
         respuesta,tof = agregar()
@@ -54,10 +52,20 @@ while ans:
          print("\n Agregado")
     elif ans=="2":
         codigo = input('Ingrese el código del empleado que quiere modificar: ')
-        empleado=buscar(codigo)
-        empleado.imprimirDatos()
-        respuesta = modificar()
-        print("\n Empleado modificado")
+        s.send(codigo.encode('utf-8'))
+        enc = s.recv(1024)
+        res=enc.decode('utf-8')
+        if res != ' ':
+            print(res)
+            respuesta,tof =  modificar(codigo)
+            if not tof:
+                print(respuesta)
+            elif tof:
+                s.send(str((codigo+','+respuesta)).encode('utf-8'))
+                print("\n Empleado modificado")
+        elif res == ' ':
+            print('No econtrado')
+
     elif ans=="3":
         codigo = input('Ingrese el código del empleado que quiere buscar: ')
         s.send(codigo.encode('utf-8'))
@@ -67,9 +75,12 @@ while ans:
             print(res)
         elif res:
             print('No econtrado')
-    elif ans=="3":
-        print("\n Listado")
     elif ans=="4":
+        codigo='listar'
+        s.send(codigo.encode('utf-8'))
+        enc = s.recv(1024)
+        print(enc.decode('utf-8'))
+    elif ans=="5":
         print("\n Goodbye")
         break
     elif ans !="":

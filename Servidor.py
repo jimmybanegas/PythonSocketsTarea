@@ -29,26 +29,12 @@ def creartxt():
     except:
         temp = os.path.join(os.path.abspath('datos.txt'))
         archi=open(temp,'w')
-        archi.write('0\n')
         archi.close()
 
 def grabartxt(empleado):
     fn = os.path.join(os.path.abspath('datos.txt'))
     archi=open(fn,'r+')
-    numero_de_registros = archi.readline()
-    number = int(numero_de_registros)+1
-
-    pos_ultimo = 6
-
-    if number != 1:
-        archi.seek(0,2)
-        pos_ultimo = archi.tell()
-
-    archi.seek(0,0)
-    archi.write( str(number) + '\n' )
-    archi.write(str(pos_ultimo)+'\n')
-
-    archi.seek(pos_ultimo,0)
+    archi.seek(0,2)
     archi.write(empleado+'\n')
 
     archi.close()
@@ -82,8 +68,28 @@ def editar(codigo,nuevo):
     return True
 
 
+def listar():
+    fn = os.path.join(os.path.abspath('datos.txt'))
+    lista=' '
+    with open(fn, 'r') as inF:
+        for line in inF:
+            lista+=line+','
+    return lista
+
+
 while True:
     client_data = client_socket.recv(1024)
+    d = client_data.decode('utf-8')
+    tokens = d.split(",")
+    if (client_data.decode('utf-8'))=='listar':
+        enc=listar()
+        client_socket.send(enc.encode('utf-8'))
+        continue
+    if len(tokens)==2:
+        print(tokens[0])
+        print(tokens[1])
+        editar(tokens[0],tokens[1])
+        continue
     if len(client_data.decode('utf-8'))==4:
         enc=buscar(client_data.decode('utf-8'))
         client_socket.send(enc.encode('utf-8'))

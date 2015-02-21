@@ -93,7 +93,3 @@ class Empleado:
         empleado= Empleado()
         empleado.inicializar(codigo,nombre,correo,salario,identidad,telefono)
         return (empleado.toString(),True)
-
-    @classmethod
-    def editarEmpleado(cls, codigo, nombre, correo, salario, identidad, telefono):
-        pass
