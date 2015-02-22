@@ -4,7 +4,6 @@ __author__ = 'Jimmy Banegas'
 
 import socket
 import time
-import os
 from ClientServer.Archivo import *
 
 

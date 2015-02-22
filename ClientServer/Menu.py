@@ -51,11 +51,9 @@ while ans:
         codigo='listar'
         s.send(codigo.encode('utf-8'))
         enc = s.recv(1024)
-        print(enc.decode('utf-8'))
+        listar(enc.decode('utf-8'))
     elif ans=="5":
-        tasas=tasas().split(',')
-        print((tasas))
-        print("\n Goodbye")
+        print("\n Saliste!")
         break
     elif ans !="":
         print("\n Opción no válida")

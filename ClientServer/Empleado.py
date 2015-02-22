@@ -29,6 +29,11 @@ def agregarEmpleado(codigo, nombre, correo, salario, identidad, telefono):
     empleado.inicializar(codigo,nombre,correo,salario,identidad,telefono)
     return (empleado.toString(),True)
 
+def dolares(codigo, nombre, correo, salario, identidad, telefono,tasa):
+    empleado= Empleado()
+    empleado.inicializar(codigo,nombre,correo,salario,identidad,telefono)
+    return (empleado.toStringDolares(tasa))
+
 class Empleado:
     def inicializar(self, cod, nom, email, suel, id, tel):
         self.codigo = cod
@@ -41,5 +46,10 @@ class Empleado:
     def toString(self):
         return (self.codigo+' '+self.nombre+' '+self.correo+' '+self.identidad+' '+
                 self.sueldo+' '+self.telefono)
+
+    def toStringDolares(self,tasa):
+        dolares=round(float(self.sueldo)/(float(tasa)),2)
+        return ('Codigo: '+self.codigo+' Nombre: '+self.nombre+' Correo: '+self.correo+' $. '+
+                str(dolares)+ ' Lps. '+ self.sueldo+' Id: '+self.identidad+' Tel: '+self.telefono)
 
 
