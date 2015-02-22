@@ -1,39 +1,11 @@
 __author__ = 'Jimmy Banegas'
 
-from Empleado import *
+from ClientServer.OpcionesDeMenu import *
+from ClientServer.Cliente import *
 
 ans=True
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = socket.gethostname()
-port = 2222
-
-print('Connecting to the server...')
-s.connect((host, port))
-print('Connection established...')
-
-msg = s.recv(1024)
-
-def agregar():
-    codigo = Empleado.getNextCodigo(Empleado)
-    print('Código: '+ codigo)
-    nombre = input('Ingrese el nombre y apellidos: ')
-    correo = input('Ingrese el correo: ')
-    salario = input('Ingrese el salario: ')
-    identidad = input('Ingrese la identidad: ')
-    telefono = input('Ingrese el teléfono: ')
-    return Empleado.agregarEmpleado(codigo,nombre,correo,salario,identidad,telefono)
-
-def buscar(codigo):
-    return Empleado.buscarEmpleado(codigo)
-
-def modificar(codigo):
-    nombre = input('Ingrese el nombre y apellidos: ')
-    correo = input('Ingrese el correo: ')
-    salario = input('Ingrese el salario: ')
-    identidad = input('Ingrese la identidad: ')
-    telefono = input('Ingrese el teléfono: ')
-    return Empleado.agregarEmpleado(codigo,nombre,correo,salario,identidad,telefono)
+s,msg=iniciarCliente()
 
 while ans:
     print ("""
@@ -81,6 +53,8 @@ while ans:
         enc = s.recv(1024)
         print(enc.decode('utf-8'))
     elif ans=="5":
+        tasas=tasas().split(',')
+        print((tasas))
         print("\n Goodbye")
         break
     elif ans !="":
